@@ -49,8 +49,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         Text(text = "Great to see you again!",
             modifier.fillMaxWidth(),
             style = TextStyle(
+                color = Color.Black,
                 fontSize = 30.sp,
-//                font size
                 fontFamily = FontFamily.Serif
             )
         )
@@ -69,9 +69,13 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             email = it
         },
             label = {
-                Text(text = "Enter email address")
+                Text(text = "Enter email address",
+                    style = TextStyle(
+                        color = Color.Black
+                    ))
             },
             modifier = Modifier.fillMaxWidth()
+
 
         )
         Spacer(modifier = Modifier.height(20.dp))

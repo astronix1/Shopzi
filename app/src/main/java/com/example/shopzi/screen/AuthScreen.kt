@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,6 +50,7 @@ fun AuthScreen(navController: NavHostController) {
         Text(
             text = "Shopzi – Everything You Need, Just a Tap Away",
             style = TextStyle(
+                color = Color.Black,
                 fontSize = 25.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.SemiBold
@@ -62,6 +64,7 @@ fun AuthScreen(navController: NavHostController) {
         Text(
             text = "Score the best deals for all your daily essentials!",
             style = TextStyle(
+                color = Color.Black,
                 fontFamily = FontFamily.Serif
             ),
             textAlign = TextAlign.Center,
@@ -72,13 +75,18 @@ fun AuthScreen(navController: NavHostController) {
 
         Button(
             onClick = { navController.navigate("login") },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF6750A4), // Background color
+                contentColor = Color.White         // Text (content) color
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
             Text(
                 text = "Login",
-                style = TextStyle(fontSize = 17.sp)
+                style = TextStyle(fontSize = 17.sp,
+                    color = Color.White)
             )
         }
 
@@ -92,7 +100,8 @@ fun AuthScreen(navController: NavHostController) {
         ) {
             Text(
                 text = "SignUp",
-                style = TextStyle(fontSize = 17.sp)
+                style = TextStyle(fontSize = 17.sp,
+                    color = Color(0xFF6750A4))
             )
         }
     }
