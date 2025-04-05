@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -27,17 +28,24 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.shopzi.AppUtil
 import com.example.shopzi.R
+import com.example.shopzi.viewmodel.AuthViewModel
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel = viewModel()) {
     var email by remember{
         mutableStateOf("")
     }
     var password by remember{
         mutableStateOf("")
     }
-
+    val context = LocalContext.current
+    var isL by remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -92,13 +100,30 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = {  },
+            onClick = {
+                isL = true
+                authViewModel.login(email, password){success, errorMsg->
+                    if(success){
+                        isL = false
+                        navController.navigate("homescreen"){
+                            popUpTo("auth"){
+                                inclusive = true
+                            }
+                        }
+                    }else{
+                        isL = false
+                        AppUtil.showToast(context, errorMsg ?: "Something went wrong")
+                    }
+
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp)
+                .height(52.dp),
+            enabled = !isL
         ) {
             Text(
-                text = "Login",
+                text = if(isL) "Logging in.." else "Login",
                 style = TextStyle(fontSize = 17.sp)
             )
         }
@@ -106,8 +131,3 @@ fun LoginScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
-@Composable
-fun Pre2(modifier: Modifier = Modifier) {
-    LoginScreen()
-}

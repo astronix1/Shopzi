@@ -33,4 +33,15 @@ class AuthViewModel: ViewModel(){
             }
 
     }
+
+    fun login(email:String, password: String, onComplete: (Boolean, String?)->Unit){
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    onComplete(true, null)
+                } else {
+                    onComplete(false, it.exception?.localizedMessage)
+                }
+            }
+    }
 }

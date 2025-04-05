@@ -32,11 +32,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.shopzi.AppUtil
 import com.example.shopzi.viewmodel.AuthViewModel
 
 @Composable
-fun SignupScreen(modifier: Modifier = Modifier, authViewModel: AuthViewModel = viewModel()) {
+fun SignupScreen(modifier: Modifier = Modifier,navController: NavController, authViewModel: AuthViewModel = viewModel()) {
 
     var email by remember{
         mutableStateOf("")
@@ -48,6 +49,9 @@ fun SignupScreen(modifier: Modifier = Modifier, authViewModel: AuthViewModel = v
         mutableStateOf("")
     }
     val context = LocalContext.current
+    var isL by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
@@ -107,21 +111,29 @@ fun SignupScreen(modifier: Modifier = Modifier, authViewModel: AuthViewModel = v
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
+                isL = true
                 authViewModel.signup(email, name, password){success, errorMsg->
                     if(success){
-
+                        isL = false
+                        navController.navigate("homescreen"){
+                            popUpTo("auth"){
+                                inclusive = true
+                            }
+                        }
                     }else{
+                        isL = false
                         AppUtil.showToast(context, errorMsg ?: "Something went wrong")
                     }
 
                 }
             },
+            enabled = !isL,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
             Text(
-                text = "SignUp",
+                text = if(isL) "Creating account.." else "SignUp",
                 style = TextStyle(fontSize = 17.sp)
             )
         }
@@ -131,5 +143,5 @@ fun SignupScreen(modifier: Modifier = Modifier, authViewModel: AuthViewModel = v
 @Preview
 @Composable
 fun Pre1(modifier: Modifier = Modifier) {
-    SignupScreen()
+    SignupScreen(navController = NavController(LocalContext.current))
 }
