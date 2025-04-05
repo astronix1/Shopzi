@@ -50,6 +50,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             modifier.fillMaxWidth(),
             style = TextStyle(
                 fontSize = 30.sp,
+//                font size
                 fontFamily = FontFamily.Serif
             )
         )
