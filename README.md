@@ -1,0 +1,2 @@
+# Shopzi
+An Ecommerce app
