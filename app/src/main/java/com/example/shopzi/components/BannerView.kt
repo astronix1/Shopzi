@@ -23,6 +23,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
+import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.WormIndicatorType
 
 @Composable
@@ -49,18 +50,8 @@ fun BannerView(modifier: Modifier = Modifier) {
 
         DotsIndicator(
             dotCount = banlist.size,
-            type = WormIndicatorType(
-                dotsGraphic = DotGraphic(
-                    16.dp,
-                    borderWidth = 2.dp,
-                    borderColor = MaterialTheme.colorScheme.primary,
-                    color = Color.Transparent,
-                ),
-                wormDotGraphic = DotGraphic(
-                    16.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            ),
+            type = ShiftIndicatorType(dotsGraphic = DotGraphic(color = MaterialTheme.colorScheme.primary,
+                size = 6.dp)),
             pagerState = pagerState
         )
     }
