@@ -35,13 +35,19 @@ fun BannerView(modifier: Modifier = Modifier) {
     val pagerState = rememberPagerState(0) {
         banlist.size
     }
+
+
     LaunchedEffect(banlist.size) {
-        while (true) {
-            delay(2000L)
-            val nextPage = (pagerState.currentPage + 1) % banlist.size
-            pagerState.animateScrollToPage(nextPage)
+        if (banlist.isNotEmpty()) {
+            while (true) {
+                delay(2000L)
+                val nextPage = (pagerState.currentPage + 1) % banlist.size
+                pagerState.animateScrollToPage(nextPage)
+            }
         }
     }
+
+
     LaunchedEffect(Unit) {
         Firebase.firestore.collection("data").document("banners").get().addOnCompleteListener {
             banlist = it.result.get("urls") as List<String>
@@ -59,7 +65,8 @@ fun BannerView(modifier: Modifier = Modifier) {
 
         DotsIndicator(
             dotCount = banlist.size,
-            type = ShiftIndicatorType(dotsGraphic = DotGraphic(color = MaterialTheme.colorScheme.primary,
+            type = ShiftIndicatorType(dotsGraphic =
+                DotGraphic(color = MaterialTheme.colorScheme.primary,
                 size = 6.dp)),
             pagerState = pagerState
         )

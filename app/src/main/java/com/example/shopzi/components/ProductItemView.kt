@@ -60,7 +60,7 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(8.dp)
-                            .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp))
+                            .background(Color(0xFFFF7043), shape = RoundedCornerShape(8.dp))
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
@@ -72,7 +72,7 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                 text = p.title,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(horizontal = 4.dp)
             )
@@ -98,7 +98,7 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                         text = "₹${p.actualPrice}",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        color = Color(0xFF2E7D32)
                     )
                 }
 
@@ -109,14 +109,14 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                     modifier = Modifier
                         .size(42.dp)
                         .background(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                            Color(0xFFEFEBE9),
                             shape = CircleShape
                         )
                 ) {
                     Icon(
                         imageVector = Icons.Default.ShoppingCart,
                         contentDescription = "Cart",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = Color(0xFF6D4C41),
                         modifier = Modifier.size(24.dp)
                     )
                 }
