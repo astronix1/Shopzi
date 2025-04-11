@@ -25,11 +25,22 @@ import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.WormIndicatorType
+import kotlinx.coroutines.delay
 
 @Composable
 fun BannerView(modifier: Modifier = Modifier) {
     var banlist by remember {
         mutableStateOf<List<String>>(emptyList())
+    }
+    val pagerState = rememberPagerState(0) {
+        banlist.size
+    }
+    LaunchedEffect(banlist.size) {
+        while (true) {
+            delay(2000L)
+            val nextPage = (pagerState.currentPage + 1) % banlist.size
+            pagerState.animateScrollToPage(nextPage)
+        }
     }
     LaunchedEffect(Unit) {
         Firebase.firestore.collection("data").document("banners").get().addOnCompleteListener {
@@ -37,9 +48,7 @@ fun BannerView(modifier: Modifier = Modifier) {
         }
     }
     Column(modifier = modifier) {
-        val pagerState = rememberPagerState(0) {
-            banlist.size
-        }
+
         HorizontalPager(state = pagerState, pageSpacing = 20.dp)  {
             AsyncImage(model = banlist[it],
                 contentDescription = "Banner",
