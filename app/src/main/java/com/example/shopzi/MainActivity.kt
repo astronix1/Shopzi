@@ -32,7 +32,7 @@ import com.google.firebase.firestore.firestore
         firestore.firestoreSettings = settings
         enableEdgeToEdge()
         setContent {
-            ShopziTheme {
+            ShopziTheme(darkTheme = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavigation(Modifier.padding(innerPadding))
                 }
