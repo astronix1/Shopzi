@@ -14,12 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.shopzi.AppUtil
 import com.example.shopzi.GlobalNavigation
 import com.example.shopzi.model.ProductModel
 
@@ -38,7 +40,7 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-
+            var context = LocalContext.current
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(160.dp)) {
@@ -106,13 +108,13 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                 Spacer(modifier = Modifier.weight(1f))
 
                 IconButton(
-                    onClick = { /* TODO: Add to cart action */ },
+                    onClick = {
+
+                        AppUtil.addtocart(context, p.id)
+
+                    },
                     modifier = Modifier
                         .size(42.dp)
-                        .background(
-                            Color(0xFFEFEBE9),
-                            shape = CircleShape
-                        )
                 ) {
                     Icon(
                         imageVector = Icons.Default.ShoppingCart,

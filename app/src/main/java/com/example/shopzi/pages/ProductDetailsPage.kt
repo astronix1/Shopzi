@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.shopzi.AppUtil
 import com.example.shopzi.GlobalNavigation
 import com.example.shopzi.model.ProductModel
 import com.google.firebase.Firebase
@@ -90,7 +91,6 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFE0E0E0))
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -176,7 +176,7 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
         }
         Spacer(modifier = Modifier.height(25.dp))
         Button(onClick = {
-
+                AppUtil.addtocart(GlobalNavigation.navController.context, productId)
         },
             modifier = Modifier.fillMaxWidth().height(51.dp),
             colors = ButtonDefaults.buttonColors(

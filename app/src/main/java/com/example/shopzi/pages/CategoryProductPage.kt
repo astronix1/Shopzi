@@ -72,7 +72,6 @@ fun CategoryProductPage(modifier: Modifier = Modifier, categoryId: String) {
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFE0E0E0))
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
