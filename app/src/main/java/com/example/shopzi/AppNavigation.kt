@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.shopzi.pages.CategoryProductPage
+import com.example.shopzi.pages.CheckoutPage
 import com.example.shopzi.pages.ProductDetailsPage
 import com.example.shopzi.screen.AuthScreen
 import com.example.shopzi.screen.HomeScreen
@@ -41,6 +42,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         composable("productdetailspage/{productId}"){
             var productId = it.arguments?.getString("productId")
             ProductDetailsPage(modifier, productId!!)
+        }
+        composable("checkout"){
+            CheckoutPage(modifier)
         }
     }
 }

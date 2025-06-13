@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -103,7 +104,8 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
             Text(text = product.title,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                maxLines = 1
             )
         }
 
@@ -158,7 +160,7 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
             Spacer(modifier = Modifier.weight(1f))
 
             IconButton(
-                onClick = { /* TODO: Add to cart action */ },
+                onClick = { /* add tof fav */ },
                 modifier = Modifier
                     .size(42.dp)
                     .background(

@@ -3,10 +3,13 @@ package com.example.shopzi.pages
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -14,11 +17,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.request.Disposable
+import com.example.shopzi.AppUtil
+import com.example.shopzi.GlobalNavigation
 import com.example.shopzi.components.CartItemView
 import com.example.shopzi.model.UserModel
 import com.google.firebase.Firebase
@@ -60,7 +66,7 @@ fun CartPage(modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier.fillMaxSize()
-            .padding(16.dp)
+            .padding(12.dp)
     ){
         Text(
             text = "Your Cart",
@@ -70,7 +76,9 @@ fun CartPage(modifier: Modifier = Modifier) {
             )
         )
         Spacer(modifier = Modifier.height(25.dp))
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.weight(1f)
+        ) {
 
             items(items = userModel.value.cart.toList(), key = { it.first }) { (productName, quantity) ->
                 CartItemView(
@@ -79,6 +87,31 @@ fun CartPage(modifier: Modifier = Modifier) {
                 )
             }
         }
+
+
+        Spacer(modifier=Modifier.height(12.dp));
+
+
+        Button(onClick = {
+            GlobalNavigation.navController.navigate("checkout")
+        },
+            modifier = Modifier.fillMaxWidth().height(51.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF1E1E1E)
+                ,
+                contentColor = Color.White
+            )
+
+        ){
+            Text(text = "Checkout",
+                fontSize = 23.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+
+
+
+
 
 
     }
