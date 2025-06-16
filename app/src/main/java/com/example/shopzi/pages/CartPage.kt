@@ -1,5 +1,6 @@
 package com.example.shopzi.pages
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -76,37 +78,51 @@ fun CartPage(modifier: Modifier = Modifier) {
             )
         )
         Spacer(modifier = Modifier.height(25.dp))
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
+        if(userModel.value.cart.isNotEmpty()){
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
 
-            items(items = userModel.value.cart.toList(), key = { it.first }) { (productName, quantity) ->
-                CartItemView(
-                    pId = productName,
-                    quantity = quantity,
+                items(items = userModel.value.cart.toList(), key = { it.first }) { (productName, quantity) ->
+                    CartItemView(
+                        pId = productName,
+                        quantity = quantity,
+                    )
+                }
+            }
+
+
+            Spacer(modifier=Modifier.height(12.dp));
+
+
+            Button(onClick = {
+                GlobalNavigation.navController.navigate("checkout")
+            },
+                modifier = Modifier.fillMaxWidth().height(51.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF1E1E1E)
+                    ,
+                    contentColor = Color.White
+                )
+
+            ){
+                Text(text = "Checkout",
+                    fontSize = 23.sp,
+                    fontWeight = FontWeight.Bold,
                 )
             }
         }
+        else{
 
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
 
-        Spacer(modifier=Modifier.height(12.dp));
+            ){
+                Text(text = "Your cart is empty", fontSize = 28.sp)
+            }
 
-
-        Button(onClick = {
-            GlobalNavigation.navController.navigate("checkout")
-        },
-            modifier = Modifier.fillMaxWidth().height(51.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF1E1E1E)
-                ,
-                contentColor = Color.White
-            )
-
-        ){
-            Text(text = "Checkout",
-                fontSize = 23.sp,
-                fontWeight = FontWeight.Bold,
-            )
         }
 
 

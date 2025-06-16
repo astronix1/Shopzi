@@ -1,5 +1,6 @@
  package com.example.shopzi
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,8 +17,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.PersistentCacheSettings
 import com.google.firebase.firestore.firestore
+import com.razorpay.PaymentResultListener
 
- class MainActivity : ComponentActivity() {
+ class MainActivity : ComponentActivity() , PaymentResultListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val firestore = Firebase.firestore
@@ -39,6 +41,24 @@ import com.google.firebase.firestore.firestore
             }
         }
     }
+     override fun onPaymentSuccess(p0:String?){
+
+         AppUtil.clearandadd()
+
+         val builder = AlertDialog.Builder(this)
+         builder.setTitle("Payment Successful")
+         builder.setMessage("Your order has been placed successfully")
+         builder.setPositiveButton("OK") { dialog, which ->
+             GlobalNavigation.navController.popBackStack()
+             GlobalNavigation.navController.navigate("homescreen")
+         }
+         builder.setCancelable(false)
+         builder.show()
+     }
+
+     override fun onPaymentError(p0: Int, p1:String?){
+         AppUtil.showToast(this, "Payment failed")
+     }
 }
 
 
