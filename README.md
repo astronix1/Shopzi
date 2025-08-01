@@ -49,7 +49,7 @@
 ### Clone & Run
 
 ```bash
-git clone https://github.com/your-username/shopzi.git
+git clone https://github.com/astronix1/shopzi.git
 cd shopzi
 ```
 
