@@ -32,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.shopzi.AppUtil
+import com.example.shopzi.FavMan
 import com.example.shopzi.GlobalNavigation
 import com.example.shopzi.model.ProductModel
 import com.google.firebase.Firebase
@@ -52,6 +54,7 @@ import com.google.firebase.firestore.firestore
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
+import kotlinx.coroutines.launch
 import java.time.format.TextStyle
 
 @Composable
@@ -61,6 +64,14 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
     }
     val pagerState = rememberPagerState(0) {
         product.images.size
+    }
+    val scope = rememberCoroutineScope()
+    var isFav by remember { mutableStateOf(false) }
+    val context = GlobalNavigation.navController.context
+
+    LaunchedEffect(product.id) {
+        val favList = FavMan.getFavoritesList(context)
+        isFav = favList.any { it.id == product.id }
     }
     LaunchedEffect(key1 = Unit) {
         Firebase.firestore.collection("data").document("stock")
@@ -159,8 +170,18 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
 
             Spacer(modifier = Modifier.weight(1f))
 
+
             IconButton(
-                onClick = { /* add tof fav */ },
+                onClick = {
+                    scope.launch {
+                        if (isFav) {
+                            FavMan.removeFavorite(context, product.id)
+                        } else {
+                            FavMan.addFavorite(context, product)
+                        }
+                        isFav = !isFav
+                    }
+                },
                 modifier = Modifier
                     .size(42.dp)
                     .background(
@@ -170,8 +191,8 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Favorite,
-                    contentDescription = "Cart",
-                    tint = Color(0xFFD32F2F),
+                    contentDescription = "Favourite",
+                    tint = if(isFav) Color(0xFFD32F2F) else Color.Gray,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -196,6 +217,8 @@ fun ProductDetailsPage(modifier: Modifier = Modifier, productId: String) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Button(onClick = {
+
+            GlobalNavigation.navController.navigate("buynow/${product.id}")
 
         },
             modifier = Modifier.fillMaxWidth().height(51.dp),

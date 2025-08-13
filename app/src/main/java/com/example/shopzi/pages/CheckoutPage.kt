@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.firestore
 
 @Composable
 fun CheckoutPage(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     val userModel = remember {
         mutableStateOf(UserModel())
     }
@@ -164,7 +166,16 @@ fun CheckoutPage(modifier: Modifier = Modifier) {
         Spacer(modifier= Modifier.height(25.dp))
         Button(onClick = {
 
-            AppUtil.startPayment(total.value)
+            if (userModel.value.address.isNullOrBlank()) {
+                android.widget.Toast.makeText(
+                    context,
+                    "Please add your address before proceeding.",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                AppUtil.isBuyNow = false
+                AppUtil.startPayment(total.value)
+            }
 
         },
             modifier = Modifier.fillMaxWidth().height(51.dp),

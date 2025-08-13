@@ -57,6 +57,9 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:5.1.0")
 
     implementation("com.razorpay:checkout:1.6.20")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

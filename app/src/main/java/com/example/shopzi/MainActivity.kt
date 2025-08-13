@@ -43,7 +43,13 @@ import com.razorpay.PaymentResultListener
     }
      override fun onPaymentSuccess(p0:String?){
 
-         AppUtil.clearandadd()
+         if(AppUtil.isBuyNow){
+             AppUtil.addSingleProductOrder(AppUtil.buyNowProductId, this)
+             AppUtil.isBuyNow = false
+         }
+         else{
+             AppUtil.clearandadd()
+         }
 
          val builder = AlertDialog.Builder(this)
          builder.setTitle("Payment Successful")
@@ -58,6 +64,7 @@ import com.razorpay.PaymentResultListener
 
      override fun onPaymentError(p0: Int, p1:String?){
          AppUtil.showToast(this, "Payment failed")
+         AppUtil.isBuyNow = false
      }
 }
 

@@ -11,6 +11,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,38 +27,60 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 
 @Composable
-fun HeaderView(modifier: Modifier = Modifier) {
-    var name by remember {
-        mutableStateOf("")
-    }
+fun HeaderView(
+    modifier: Modifier = Modifier,
+    searchQuery: MutableState<String>,
+    onSearchClick: (String) -> Unit
+) {
+    var name by remember { mutableStateOf("") }
+    var isSearching by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         Firebase.firestore.collection("users")
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
-            .get().addOnCompleteListener() {
-                name = it.result.get("name").toString().split(" ").get(0)
+            .get()
+            .addOnCompleteListener {
+                name = it.result.get("name").toString().split(" ").first()
             }
     }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
-    ){
-        Column(){
-            Text(text = "Welcome to Shopzi!",)
-            Text(text = name, style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            ))
-        }
-        IconButton(onClick = {}) {
-            Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+    ) {
+        if (!isSearching) {
+            // Normal mode: Welcome + name + search icon
+            Column {
+                Text(text = "Welcome to Shopzi!")
+                Text(
+                    text = name,
+                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                )
+            }
+            IconButton(onClick = { isSearching = true }) {
+                Icon(Icons.Default.Search, contentDescription = "Search")
+            }
+        } else {
+            // Search mode: TextField + close icon
+            androidx.compose.material3.OutlinedTextField(
+                value = searchQuery.value,
+                onValueChange = { searchQuery.value = it },
+                placeholder = { Text("Search products...") },
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+            )
+
+            IconButton(onClick = {
+                if (searchQuery.value.isNotBlank()) {
+                    onSearchClick(searchQuery.value)
+                }
+                isSearching = false // Hide search bar after search
+            }) {
+                Icon(Icons.Default.Search, contentDescription = "Submit Search")
+            }
         }
     }
-
 }
 
-@Preview(showBackground = true)
-@Composable
-fun Pre6(modifier: Modifier = Modifier) {
-    HeaderView(modifier)
-}
+

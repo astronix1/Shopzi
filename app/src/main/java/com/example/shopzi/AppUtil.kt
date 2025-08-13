@@ -13,6 +13,9 @@ import org.json.JSONObject
 import java.util.UUID
 
 object AppUtil {
+
+    var isBuyNow = false
+    var buyNowProductId=""
     fun showToast(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
@@ -90,6 +93,45 @@ object AppUtil {
             }
         }
     }
+
+
+    fun addSingleProductOrder(productId: String, context: Context) {
+        val userdoc = Firebase.firestore.collection("users")
+            .document(Firebase.auth.currentUser?.uid!!)
+
+        userdoc.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val order = OrderModel(
+                    id = "ORD_" + UUID.randomUUID().toString().replace("-", "").take(10).uppercase(),
+                    date = com.google.firebase.Timestamp.now(),
+                    userId = Firebase.auth.currentUser?.uid!!,
+                    items = mapOf(productId to 1),
+                    status = "pending",
+                    address = it.result.get("address") as? String ?: ""
+                )
+
+                Firebase.firestore.collection("orders")
+                    .document(order.id)
+                    .set(order)
+                    .addOnCompleteListener { result ->
+                        if (result.isSuccessful) {
+//                            showToast(
+//                                context,
+//                                "Order placed successfully"
+//                            )
+                        } else {
+                            showToast(
+                                context,
+                                "Failed to place order"
+                            )
+                        }
+                    }
+            }
+        }
+    }
+
+
+
     fun rzkey(): String{
         return "rzp_test_S5EMDCKV0Mrjlb"
     }
