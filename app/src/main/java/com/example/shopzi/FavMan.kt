@@ -39,7 +39,11 @@ object FavMan {
             prefs[FAVORITES_KEY] = json
         }
     }
-
+    suspend fun clearFavorites(context: Context) {
+        context.dataStore.edit { prefs ->
+            prefs.clear()
+        }
+    }
     suspend fun getFavoritesList(context: Context): List<ProductModel> {
         val prefs = context.dataStore.data.map { it[FAVORITES_KEY] ?: "[]" }.first()
         return gson.fromJson(prefs, object : TypeToken<List<ProductModel>>() {}.type)

@@ -166,7 +166,7 @@ fun OrderCard(order: OrderModel, productCache: MutableMap<String, ProductModel>)
                         Column(modifier = Modifier.weight(1f)) {
                             Text(text = product.title, fontSize = 14.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
                             Text(text = "Qty: $qty", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text(text = "Price: ₹${product.price}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(text = "Price: ₹${product.actualPrice}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +36,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.shopzi.AppUtil
+import com.example.shopzi.FavMan
 import com.example.shopzi.GlobalNavigation
 import com.example.shopzi.model.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfilePage(modifier: Modifier = Modifier) {
@@ -51,6 +54,7 @@ fun ProfilePage(modifier: Modifier = Modifier) {
         mutableStateOf(userModel.value.address)
     }
     var context = LocalContext.current
+    val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         Firebase.firestore.collection("users")
             .document(FirebaseAuth.getInstance().currentUser?.uid!!)
@@ -157,8 +161,12 @@ fun ProfilePage(modifier: Modifier = Modifier) {
         TextButton(
             onClick = {
                 FirebaseAuth.getInstance().signOut()
+                scope.launch {
+                    FavMan.clearFavorites(context)
+                }
                 GlobalNavigation.navController.popBackStack()
                 GlobalNavigation.navController.navigate("auth")
+
             },
             modifier = Modifier
                 .fillMaxWidth()

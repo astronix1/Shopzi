@@ -58,9 +58,3 @@ fun HomePage(modifier: Modifier = Modifier) {
         CategoriesView(modifier)
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun pre7(modifier: Modifier = Modifier) {
-    HomePage(modifier)
-}
