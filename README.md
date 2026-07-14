@@ -1,63 +1,65 @@
+# 🛍️ Shopzi  
 
-# 🛍️ Shopzi
+**Shopzi** is a sleek and modern shopping app built with **Kotlin** and **Jetpack Compose**, designed to deliver a fast and intuitive shopping experience. It supports category-based product browsing, cart management, promotional banners, and real-time data sync with Firebase.  
 
-**Shopzi** is a sleek and modern shopping app built with **Kotlin** and **Jetpack Compose**, designed for a fast and intuitive user experience. It supports category-based product listings, cart management, and seamless Firebase integration for real-time data.
-
----
-
-## ✨ Features
-
-- 🗂️ **Product Categories** — Browse products organized into intuitive categories.
-- 🛒 **Cart Management** — Add, remove, and update items in your cart effortlessly.
-- 🧾 **Product Listings** — See detailed product cards with price and image.
-- 📢 **Promotional Banners** — Dynamic home banners for special deals.
-- 🔐 **Firebase Integration** — Includes Firestore and Firebase Authentication.
-- ⚡ **Jetpack Compose UI** — Built entirely with modern declarative UI.
-- 🌙 **Lightweight & Responsive** — Smooth performance on all screen sizes.
+Alongside this buyer-facing app, a companion project — **[Shopzi Seller Dashboard](https://github.com/astronix1/Shopzi-Seller)** — is also available for sellers to manage their products, categories, and offers seamlessly. Together, they form a complete e-commerce ecosystem.  
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Features  
 
-- **Language:** Kotlin
-- **UI Framework:** Jetpack Compose
-- **Backend:** Firebase (Authentication, Firestore)
-- **Build System:** Gradle Kotlin DSL
-- **Others:** Coil (for image loading), Material 3, Navigation-Compose
+- 🗂️ **Product Categories** — Browse products organized into intuitive categories.  
+- 🛒 **Cart Management** — Add, remove, and update items in your cart effortlessly.  
+- 🧾 **Product Listings** — View detailed product cards with prices and images.  
+- 📢 **Promotional Banners** — Dynamic home banners to showcase special deals.  
+- 🔐 **Firebase Integration** — Real-time Firestore sync & Firebase Authentication.  
+- ⚡ **Jetpack Compose UI** — Entirely built with modern declarative UI.  
+- 🌙 **Lightweight & Responsive** — Smooth performance across all devices.  
 
 ---
 
+## 🛠️ Tech Stack  
 
-## 🚀 Getting Started
+- **Language:** Kotlin  
+- **UI Framework:** Jetpack Compose  
+- **Backend:** Firebase (Authentication, Firestore)  
+- **Image Loading:** Coil  
+- **Navigation:** Navigation-Compose  
+- **Design:** Material 3  
+- **Build System:** Gradle Kotlin DSL  
 
-### Prerequisites
+---
 
-- Android Studio Hedgehog or newer
-- Android SDK 33+
-- A Firebase project with Authentication and Firestore enabled
+## 🚀 Getting Started  
 
-### Firebase Setup
+### Prerequisites  
 
-1. Create a Firebase project in [Firebase Console](https://console.firebase.google.com/)
-2. Enable **Email/Password Authentication**
-3. Create a **Firestore Database**
-4. Download the `google-services.json` file and place it in:
+- Android Studio **Hedgehog** or newer  
+- Android SDK 33+  
+- A Firebase project with **Authentication** and **Firestore** enabled  
+
+### Firebase Setup  
+
+1. Create a Firebase project in [Firebase Console](https://console.firebase.google.com/)  
+2. Enable **Email/Password Authentication**  
+3. Create a **Firestore Database**  
+4. Download the `google-services.json` file and place it in:  
    ```
    app/google-services.json
-   ```
+   ```  
 
-### Clone & Run
+### Clone & Run  
 
 ```bash
 git clone https://github.com/astronix1/shopzi.git
 cd shopzi
-```
+```  
 
-Open in Android Studio and click **Run** ▶️
+Open in Android Studio and click **Run** ▶️  
 
 ---
 
-## 📁 Project Structure
+## 📁 Project Structure  
 
 ```
 Shopzi/
@@ -73,26 +75,38 @@ Shopzi/
 ├── build.gradle.kts
 ├── settings.gradle.kts
 └── ...
-```
+```  
 
 ---
 
-## 🤝 Contributing
+## 🧑‍💼 Shopzi Seller Dashboard  
 
-Contributions are welcome! Feel free to fork the repo and submit a pull request.
+📦 **[Shopzi Seller Dashboard](https://github.com/astronix1/Shopzi-Seller)** is a companion app built for **sellers** to manage their store on Shopzi.  
+
+### Key Features:  
+- Add, update, or remove products  
+- Organize items by categories  
+- Manage promotional banners & offers  
+- Real-time Firebase sync with buyer app  
+
+This project complements **Shopzi**, enabling a full **buyer-seller ecosystem**.  
 
 ---
 
-## 📝 Usage
+## 🤝 Contributing  
 
-Feel free to fork or reference this project for personal or educational purposes.  
-Commercial use is not permitted without permission.
+Contributions are welcome! Feel free to fork the repo and submit a pull request.  
 
 ---
 
-## 🙋‍♂️ Author
+## 📝 License & Usage  
+
+This project is open for **personal or educational use**.  
+For **commercial usage**, please contact the author for permission.  
+
+---
+
+## 🙋‍♂️ Author  
 
 **Vishal Kumar**  
-🛠️ Made with Jetpack Compose and Firebase
-
----
+🛠️ Made with Jetpack Compose & Firebase  
