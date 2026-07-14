@@ -37,6 +37,9 @@ fun CategoriesView(modifier: Modifier = Modifier, homeViewModel: HomeViewModel) 
 
     if (isLoading && categoryList.isEmpty()) {
         Box(
+
+
+
             modifier = modifier.fillMaxWidth().height(100.dp),
             contentAlignment = Alignment.Center
         ) {
