@@ -30,9 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.shopzi.pages.CartPage
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopzi.pages.FavoritePage
 import com.example.shopzi.pages.HomePage
 import com.example.shopzi.pages.ProfilePage
+import com.example.shopzi.viewmodel.HomeViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -47,6 +49,10 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     var si by rememberSaveable {
         mutableStateOf(0)
     }
+
+
+    val homeViewModel: HomeViewModel = viewModel()
+
     Scaffold(
         bottomBar = {
             NavigationBar{
@@ -62,17 +68,17 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
             }
         }
     ) {
-        ContentScreen(modifier = modifier.padding(it),si)
+        ContentScreen(modifier = modifier.padding(it),si, homeViewModel)
     }
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, si: Int) {
+fun ContentScreen(modifier: Modifier = Modifier, si: Int, homeViewModel: HomeViewModel) {
     when(si){
-        0-> HomePage(modifier)
-        1-> FavoritePage(modifier)
-        2-> CartPage(modifier)
-        3-> ProfilePage(modifier)
+        0 -> HomePage(modifier, homeViewModel)
+        1 -> FavoritePage(modifier)
+        2 -> CartPage(modifier)
+        3 -> ProfilePage(modifier)
     }
 }
 

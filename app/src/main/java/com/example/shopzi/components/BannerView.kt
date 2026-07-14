@@ -26,16 +26,15 @@ import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.WormIndicatorType
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.collectAsState
+import com.example.shopzi.viewmodel.HomeViewModel
 
 @Composable
-fun BannerView(modifier: Modifier = Modifier) {
-    var banlist by remember {
-        mutableStateOf<List<String>>(emptyList())
-    }
-    val pagerState = rememberPagerState(0) {
-        banlist.size
-    }
+fun BannerView(modifier: Modifier = Modifier, homeViewModel: HomeViewModel) {
+    // Observe the banners from the ViewModel
+    val banlist by homeViewModel.banners.collectAsState()
 
+    val pagerState = rememberPagerState(0) { banlist.size }
 
     LaunchedEffect(banlist.size) {
         if (banlist.isNotEmpty()) {
@@ -48,27 +47,22 @@ fun BannerView(modifier: Modifier = Modifier) {
     }
 
 
-    LaunchedEffect(Unit) {
-        Firebase.firestore.collection("data").document("banners").get().addOnCompleteListener {
-            banlist = it.result.get("urls") as List<String>
-        }
-    }
-    Column(modifier = modifier) {
-
-        HorizontalPager(state = pagerState, pageSpacing = 20.dp)  {
-            AsyncImage(model = banlist[it],
-                contentDescription = "Banner",
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(15.dp))
+    if (banlist.isNotEmpty()) {
+        Column(modifier = modifier) {
+            HorizontalPager(state = pagerState, pageSpacing = 20.dp)  {
+                AsyncImage(model = banlist[it],
+                    contentDescription = "Banner",
+                    modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(15.dp))
                 )
-        }
-        Spacer(modifier =  Modifier.height(10.dp))
+            }
+            Spacer(modifier =  Modifier.height(10.dp))
 
-        DotsIndicator(
-            dotCount = banlist.size,
-            type = ShiftIndicatorType(dotsGraphic =
-                DotGraphic(color = MaterialTheme.colorScheme.primary,
-                size = 6.dp)),
-            pagerState = pagerState
-        )
+            DotsIndicator(
+                dotCount = banlist.size,
+                type = ShiftIndicatorType(dotsGraphic =
+                    DotGraphic(color = MaterialTheme.colorScheme.primary, size = 6.dp)),
+                pagerState = pagerState
+            )
+        }
     }
 }

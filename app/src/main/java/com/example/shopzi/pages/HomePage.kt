@@ -19,10 +19,11 @@ import com.example.shopzi.GlobalNavigation
 import com.example.shopzi.components.BannerView
 import com.example.shopzi.components.CategoriesView
 import com.example.shopzi.components.HeaderView
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.shopzi.viewmodel.HomeViewModel
 
 @Composable
-fun HomePage(modifier: Modifier = Modifier) {
-
+fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = viewModel()) {
     var searchQuery = remember { mutableStateOf("") }
 
 
@@ -46,7 +47,7 @@ fun HomePage(modifier: Modifier = Modifier) {
             }
         )
         Spacer(modifier = Modifier.height(10.dp))
-        BannerView(modifier = Modifier.height(220.dp))
+        BannerView(modifier = Modifier.height(220.dp), homeViewModel = homeViewModel)
         Text(
             text = "Categories",
             style = TextStyle(
@@ -55,6 +56,6 @@ fun HomePage(modifier: Modifier = Modifier) {
             )
         )
         Spacer(modifier = Modifier.height(5.dp))
-        CategoriesView(modifier)
+        CategoriesView(modifier, homeViewModel = homeViewModel)
     }
 }
