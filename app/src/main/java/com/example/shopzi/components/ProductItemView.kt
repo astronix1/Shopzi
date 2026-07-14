@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -48,6 +49,7 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                 AsyncImage(
                     model = p.images.firstOrNull(),
                     contentDescription = p.title,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(12.dp))
@@ -60,7 +62,7 @@ fun ProductItemView(modifier: Modifier = Modifier, p: ProductModel) {
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
-                            .align(Alignment.TopEnd)
+                            .align(Alignment.TopStart)
                             .padding(8.dp)
                             .background(Color(0xFFFF7043), shape = RoundedCornerShape(8.dp))
                             .padding(horizontal = 8.dp, vertical = 4.dp)

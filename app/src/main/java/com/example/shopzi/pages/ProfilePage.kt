@@ -3,6 +3,7 @@ package com.example.shopzi.pages
 import com.example.shopzi.R
 import android.graphics.fonts.Font
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -53,6 +56,8 @@ fun ProfilePage(modifier: Modifier = Modifier) {
     var addressInt by remember {
         mutableStateOf(userModel.value.address)
     }
+
+    var isLoading by remember { mutableStateOf(true) }
     var context = LocalContext.current
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
@@ -66,114 +71,126 @@ fun ProfilePage(modifier: Modifier = Modifier) {
                         addressInt = userModel.value.address
                     }
                 }
+
+                isLoading = false
             }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ){
-        Text(text = "Your Profile",
-            style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
-        )
+    if(isLoading){
 
-        Spacer(modifier = Modifier.height(20.dp))
+        com.example.shopzi.components.ProfileSkeleton()
 
-        Image(painter = painterResource(R.drawable.pfc), contentDescription = "pfc",
-            modifier = Modifier.height(170.dp). fillMaxWidth()
+    }
+    else{
 
-            )
-        Spacer(modifier = Modifier.height(14.dp))
-        Text(text = userModel.value.name,
-            style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
-            textAlign = TextAlign.Center,
-            modifier= Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "Address: ",
-            style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium)
-
-        )
-        Spacer(modifier = Modifier.height(13.dp))
-        TextField(
-            value = addressInt,
-            onValueChange = {
-                addressInt = it
-            },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                if(addressInt.isNotEmpty()){
-                    Firebase.firestore.collection("users")
-                        .document(FirebaseAuth.getInstance().currentUser?.uid!!)
-                        .update("address", addressInt)
-                        .addOnCompleteListener {
-                            if(it.isSuccessful){
-                                AppUtil.showToast(context, "Address Updated!")
-                            }
-                        }
-                }
-                else{
-                    AppUtil.showToast(context, "Address cannot be empty!")
-                }
-
-            })
-
-        )
-
-
-        Spacer(modifier = Modifier.height(17.dp))
-
-        Text(
-            text = "Email: ",
-            style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium)
-
-        )
-        Spacer(modifier = Modifier.height(13.dp))
-        Text(text = userModel.value.email,
-            style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium),
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ){
+            Text(text = "Your Profile",
+                style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
             )
 
-        Spacer(modifier = Modifier.height(17.dp))
-        Button(
-            onClick = {
-                GlobalNavigation.navController.navigate("orders")
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF1E88E5),
-                contentColor = Color.White
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Image(painter = painterResource(R.drawable.pfc), contentDescription = "pfc",
+                modifier = Modifier.height(170.dp). fillMaxWidth()
+
             )
-        ) {
+            Spacer(modifier = Modifier.height(14.dp))
+            Text(text = userModel.value.name,
+                style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+                textAlign = TextAlign.Center,
+                modifier= Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             Text(
-                text = "View My Orders",
-                style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                text = "Address: ",
+                style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium)
+
             )
-        }
+            Spacer(modifier = Modifier.height(13.dp))
+            TextField(
+                value = addressInt,
+                onValueChange = {
+                    addressInt = it
+                },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    if(addressInt.isNotEmpty()){
+                        Firebase.firestore.collection("users")
+                            .document(FirebaseAuth.getInstance().currentUser?.uid!!)
+                            .update("address", addressInt)
+                            .addOnCompleteListener {
+                                if(it.isSuccessful){
+                                    AppUtil.showToast(context, "Address Updated!")
+                                }
+                            }
+                    }
+                    else{
+                        AppUtil.showToast(context, "Address cannot be empty!")
+                    }
 
-        Spacer(modifier = Modifier.height(17.dp))
-        TextButton(
-            onClick = {
-                FirebaseAuth.getInstance().signOut()
-                scope.launch {
-                    FavMan.clearFavorites(context)
-                }
-                GlobalNavigation.navController.popBackStack()
-                GlobalNavigation.navController.navigate("auth")
+                })
 
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Logout",
-                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium))
+            )
+
+
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Text(
+                text = "Email: ",
+                style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium)
+
+            )
+            Spacer(modifier = Modifier.height(13.dp))
+            Text(text = userModel.value.email,
+                style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium),
+            )
+
+            Spacer(modifier = Modifier.height(17.dp))
+            Button(
+                onClick = {
+                    GlobalNavigation.navController.navigate("orders")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF1E88E5),
+                    contentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = "View My Orders",
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(17.dp))
+            TextButton(
+                onClick = {
+                    FirebaseAuth.getInstance().signOut()
+                    scope.launch {
+                        FavMan.clearFavorites(context)
+                    }
+                    GlobalNavigation.navController.popBackStack()
+                    GlobalNavigation.navController.navigate("auth")
+
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Logout",
+                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium))
+
+            }
+
 
         }
 

@@ -36,14 +36,13 @@ fun CategoriesView(modifier: Modifier = Modifier, homeViewModel: HomeViewModel) 
     val isLoading by homeViewModel.isLoadingCategories.collectAsState()
 
     if (isLoading && categoryList.isEmpty()) {
-        Box(
-
-
-
-            modifier = modifier.fillMaxWidth().height(100.dp),
-            contentAlignment = Alignment.Center
+        LazyRow(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            items(5) { // Showing 5 fake items jab tak loading
+                CategorySkeleton()
+            }
         }
     } else {
         LazyRow(
